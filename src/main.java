@@ -85,7 +85,7 @@ public class main {
 
     private static void createSoapEnvelope(SOAPMessage soapMessage) throws SOAPException {
         SOAPPart soapPart = soapMessage.getSOAPPart();
-
+        System.out.println("success");
 
 
         String myNamespace = "set";
