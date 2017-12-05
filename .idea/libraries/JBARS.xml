@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="JBARS">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Documents/Barcode/JBars_02-09-2006/JBARS/lib/JBARS.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/Barcode/JBars_02-09-2006/JBARS/lib/jai_codec.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

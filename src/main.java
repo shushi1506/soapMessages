@@ -1,30 +1,20 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
 import java.util.Iterator;
 
 
-import com.sun.xml.internal.messaging.saaj.soap.ver1_2.SOAPPart1_2Impl;
+import Utils.CallService;
+import Utils.Defined;
 import org.apache.commons.codec.binary.Base64;
 
-import org.krysalis.barcode4j.HumanReadablePlacement;
-import org.krysalis.barcode4j.impl.code128.Code128Bean;
-import org.krysalis.barcode4j.impl.code128.Code128Constants;
-import org.krysalis.barcode4j.impl.upcean.EAN13Bean;
-import org.krysalis.barcode4j.impl.upcean.EAN8Bean;
-import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
-import org.krysalis.barcode4j.output.bitmap.BitmapEncoder;
-import org.krysalis.barcode4j.output.bitmap.BitmapEncoderRegistry;
-import org.krysalis.barcode4j.tools.MimeTypes;
-import org.krysalis.barcode4j.tools.UnitConv;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
-import javax.imageio.ImageIO;
-import javax.xml.bind.SchemaOutputResolver;
-import javax.xml.namespace.QName;
+import javax.xml.bind.Unmarshaller;
+
 import javax.xml.soap.*;
-import javax.xml.ws.Service;
+
 
 /**
  * @author tuananh 11/2/2017
@@ -32,11 +22,17 @@ import javax.xml.ws.Service;
  * PACKAGE_NAME
  */
 public class main {
-    public static void main(String[] args) throws IOException {
-        String soapEndpointUrl = "http://10.200.200.41:4001/TrackingVanBan?wsdl";
-        String soapAction = "http://set.vbdhtracking.soapservice/GetAuthenticationRequest";
 
-        callSoapWebService(soapEndpointUrl, soapAction);
+
+//    public static String nameSpaceURI="http://syncdata.soapservice.crud/";
+//    public static String nameSpace="syn";
+//    public static String endPointUrl="http://10.0.123.18:9101/CategoriesCrud.wsdl?wsdl";
+//    public static String action="CategoriesCrud/GetAuthentication";
+
+    public static void main(String[] args) throws IOException, JAXBException, SOAPException {
+//        String soapEndpointUrl = "http://10.0.123.12:9101/CategoriesCrud?wsdl";
+//        String soapAction = "CategoriesCrud/GetAuthentication";
+
 
 //        File outputFile = new File("C:\\Users\\Admin\\Documents\\Barcode\\barcode4j_ean13_3.png") ;// existing file in the file system
 //        OutputStream out = new FileOutputStream(outputFile);
@@ -83,122 +79,53 @@ public class main {
 //        }
     }
 
-    private static void createSoapEnvelope(SOAPMessage soapMessage) throws SOAPException {
-        SOAPPart soapPart = soapMessage.getSOAPPart();
-        System.out.println("success");
-
-
-        String myNamespace = "set";
-        String myNamespaceURI = "http://set.vbdhtracking.soapservice/";
-
-//        String myNamespace2="soap";
-//        String myNamespaceURI2 = "http://www.w3.org/2003/05/soap-envelope";
-
-        // SOAP Envelope
-        SOAPEnvelope envelope = soapPart.getEnvelope();
-
-
-        envelope.setPrefix("soap");
-
-        envelope.addNamespaceDeclaration(myNamespace, myNamespaceURI);
-//        envelope.addNamespaceDeclaration(myNamespace2,myNamespaceURI2);
-        System.out.println(envelope.getNamespaceURI("soap"));
-
-        SOAPHeader soapHeader =envelope.getHeader();
-        soapHeader.setPrefix("soap");
 
 
 
-            /*
-            Constructed SOAP Request Message:
-            <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:myNamespace="https://www.w3schools.com/xml/">
-                <SOAP-ENV:Header/>
-                <SOAP-ENV:Body>
-                    <myNamespace:CelsiusToFahrenheit>
-                        <myNamespace:Celsius>100</myNamespace:Celsius>
-                    </myNamespace:CelsiusToFahrenheit>
-                </SOAP-ENV:Body>
-            </SOAP-ENV:Envelope>
-            */
 
-        // SOAP Body
-        SOAPBody soapBody = envelope.getBody();
-        soapBody.setPrefix(myNamespace);
-        SOAPElement soapBodyElem = soapBody.addChildElement("GetAuthenticationRequest", myNamespace);
-        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("request", myNamespace);
-        QName user=new QName("username");
-        QName pass=new QName("password");
-        soapBodyElem1.addAttribute(user,"vanthu.dba@mofa.gov.vn");
-        soapBodyElem1.addAttribute(pass,"123456a@");
-        SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("authToken", myNamespace);
+    private static Name getName(SOAPMessage message) {
+        Name rvalue = null;
+        SOAPPart soap = message.getSOAPPart();
+        if (soap != null) {
+            try {
+                SOAPEnvelope envelope = soap.getEnvelope();
+                if (envelope != null) {
+                    SOAPBody body = envelope.getBody();
+                    if (body != null) {
+                        Iterator it = body.getChildElements();
+                        while (it.hasNext()) {
+                            Object o = it.next();
+                            if (o instanceof SOAPElement) {
+                                Iterator ite=((SOAPElement) o).getChildElements();
+                                SOAPElement k= (SOAPElement) ite.next();
+                                Iterator ite2=k.getChildElements();
+                                while (ite2.hasNext()){
+                                    SOAPElement temp= (SOAPElement) ite2.next();
 
-//        SOAPElement soapBodyElem = soapBody.addChildElement("CrudGetAuthenticationRequest", myNamespace);
-//        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("request", myNamespace);
-//        QName user=new QName("username");
-//        QName pass=new QName("password");
-//        soapBodyElem1.addAttribute(user,"andn@vss.gov.vn");
-//        soapBodyElem1.addAttribute(pass,"123456aA@");
-//        SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("authToken", myNamespace);
-//        soapBodyElem2.addTextNode("WMjWEUsAPK2FvYXJqnGjSsoORSG+1O1KlikgAlWko0Hv77I1xzGRkr9hxcLqEtLmMWL8VapyAXFbVEH0/sHkwM3l4jVU+Ja3shELl2g88b/VOsKw+1mHiTBdDgANKVyaZ4lshbkgIhk8q1jmRfKV9CqzmVvx2I8JvLBBdoUJPQW5AUzfy7iWY4Vf7ppkYSjHxeEbVha385wU28AHT1rHLGL5toplxfNixpGAZhhkWNtqt9Ky2HoadrzCBI7tygUcQ4Cc0RQqoWUqtvjPxEawgJYYFg7lGHnDKpHBmoOUmMzToewx8BLeMXoNJmf13eU8YTLuE2d9tt9X9LDRIYrlyA==");
-    }
+                                }
+//                                while (ite.hasNext()){
+//                                    Object k=it.next();
+//                                    if(k instanceof SOAPElement){
+//                                        break;
+//                                    }
+//                                }
+                                rvalue = ((SOAPElement) o).getElementName();
 
-    private static void callSoapWebService(String soapEndpointUrl, String soapAction) {
-        try {
-            // Create SOAP Connection
-            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
-
-            // Send SOAP Message to SOAP Server
-            SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(soapAction), soapEndpointUrl);
-            SOAPPart sp=  soapResponse.getSOAPPart();
-            SOAPEnvelope ser=sp.getEnvelope();
-            SOAPBody sbr=ser.getBody();
-            Name bn=ser.createName("GetAuthenticationResponse","set","http://set.vbdhtracking.soapservice/");
-
-            Iterator cc=sbr.getChildElements(bn);
-            while(cc.hasNext()){
-                SOAPBodyElement ccc= (SOAPBodyElement) cc.next();
-                System.out.println(ccc.getValue());
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (SOAPException se) {
+//                if (_logger.isLoggable(Level.FINE)) {
+//                    _logger.log(Level.FINE, "WSS: Unable to get SOAP envelope",
+//                            se);
+//                }
             }
-//            SOAPElement e= (SOAPElement) sbr.getFirstChild();
-//            Iterator c=  e.getChildElements();
-//            while (c.hasNext()){
-//                SOAPBodyElement k= (SOAPBodyElement) c.next();
-//                System.out.println(k.getValue());
-//            }
-//            SOAPElement f= (SOAPElement) c.getFirstChild();
-
-            soapResponse.writeTo(System.out);
-
-            System.out.println();
-
-            soapConnection.close();
-        } catch (Exception e) {
-            System.err.println("\nError occurred while sending SOAP Request to Server!\nMake sure you have the correct endpoint URL and SOAPAction!\n");
-            e.printStackTrace();
         }
+        return rvalue;
     }
 
-    private static SOAPMessage createSOAPRequest(String soapAction) throws Exception {
-        MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
-        SOAPMessage soapMessage = messageFactory.createMessage();
-
-        createSoapEnvelope(soapMessage);
-
-        MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", soapAction);
-
-        soapMessage.saveChanges();
-
-        /* Print the request message, just for debugging purposes */
-        System.out.println("Request SOAP Message:");
-
-        soapMessage.writeTo(System.out);
-
-        System.out.println("\n");
-
-        return soapMessage;
-    }
     public static void drawCenteredString(String s, int w, int h, Graphics g) {
         FontMetrics fm = g.getFontMetrics();
         int x = (w - fm.stringWidth(s)) / 2;

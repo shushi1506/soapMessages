@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="com.predic8:soa-model-core:1.5.1" type="repository">
+    <properties maven-id="com.predic8:soa-model-core:1.5.1" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/predic8/soa-model-core/1.5.1/soa-model-core-1.5.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy/2.3.9/groovy-2.3.9.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-xml/2.3.9/groovy-xml-2.3.9.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-json/2.3.9/groovy-json-2.3.9.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.2.2/httpclient-4.2.2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.2.2/httpcore-4.2.2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.6/commons-codec-1.6.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.9/slf4j-api-1.7.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

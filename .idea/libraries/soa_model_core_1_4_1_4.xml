@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="soa-model-core-1.4.1.4">
+    <CLASSES>
+      <root url="jar://E:/Tecapro/ServicesVerifyDataSync/lib/soa-model-core-1.4.1.4.jar!/" />
+      <root url="jar://E:/Tecapro/ServicesVerifyDataSync/lib/soa-model-distribution-1.4.1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
